@@ -30,7 +30,7 @@ export default function DashboardHeader() {
         'min-w-[176px]',
         isExpanded ? 'max-w-[640px] px-5 py-2 scale-[1.03]' : 'max-w-[176px] px-3 py-1 scale-[1]',
         'bg-gradient-to-br from-[#ffffff0b] via-[#ffffff14] to-[#ffffff0b]',
-        'border border-white/10 shadow-[inset_0_1px_4px_rgba(255,255,255,0.1),_0_8px_32px_rgba(0,0,0,0.3)]'
+        'border border-white/10 shadow-[inset_0_1px_4px_rgba(255,255,255,0.08),_0_8px_32px_rgba(0,0,0,0.25)]'
       )}
       style={{
         transitionProperty: 'max-width, padding, transform',
@@ -40,26 +40,36 @@ export default function DashboardHeader() {
       {/* Inner Soft Glow */}
       <div className="absolute inset-0 z-0 pointer-events-none before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white/10 before:blur-2xl before:opacity-20" />
 
+      {/* Outer Hover Aura */}
+      <div
+        className={clsx(
+          'absolute inset-0 rounded-full pointer-events-none transition-opacity duration-500',
+          isHovered ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        <div className="absolute inset-0 rounded-full border border-white/10 animate-pulse blur-[3px]" />
+      </div>
+
       <div className="flex items-center justify-between w-full relative z-10">
         {/* Search */}
         <div
           className={clsx(
-            'flex-1 mr-4 transition-opacity duration-300',
-            isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            'flex-1 mr-4 transition-all duration-300',
+            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           )}
         >
           <input
             type="text"
             placeholder="Search..."
-            className="w-full px-4 py-1.5 text-sm text-white placeholder-white/50 bg-white/5 border border-white/10 rounded-full backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300"
+            className="w-full px-4 py-1.5 text-sm text-white placeholder-white/50 bg-white/5 border border-white/10 rounded-full backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white/30 focus:bg-white/10 transition-all duration-300"
           />
         </div>
 
         {/* Icons */}
         <div
           className={clsx(
-            'flex items-center gap-2 transition-opacity duration-300',
-            isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            'flex items-center gap-2 transition-all duration-300',
+            isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'
           )}
         >
           <button className="p-2 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition duration-200">
@@ -68,19 +78,19 @@ export default function DashboardHeader() {
           <button className="p-2 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition duration-200">
             <Bell className="w-4 h-4 text-white" />
           </button>
-          <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 ring-1 ring-white/10 backdrop-blur-sm" />
+          <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 ring-1 ring-white/10 backdrop-blur-sm transition-transform duration-200 hover:scale-105" />
         </div>
 
         {/* Mini Icons (Collapsed State) */}
         <div
           className={clsx(
-            'absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 transition-opacity duration-300',
-            isHovered ? 'opacity-0 pointer-events-none' : 'opacity-100'
+            'absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 transition-all duration-300',
+            isHovered ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
           )}
         >
-          <Search className="w-4 h-4 text-white/70" />
-          <Bell className="w-4 h-4 text-white/70" />
-          <User className="w-4 h-4 text-white/70" />
+          <Search className="w-4 h-4 text-white/70 transition-transform duration-300" />
+          <Bell className="w-4 h-4 text-white/70 transition-transform duration-300" />
+          <User className="w-4 h-4 text-white/70 transition-transform duration-300" />
         </div>
       </div>
     </div>
