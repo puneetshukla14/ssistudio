@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
   ].some((route) => req.nextUrl.pathname.startsWith(route))
 
   if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL('/login', req.url))
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
 
   return NextResponse.next()
