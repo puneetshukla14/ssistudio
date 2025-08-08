@@ -1,24 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-const PUBLIC_PATHS = ['/', '/login'];
+import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-  const token = req.cookies.get('token')?.value ?? null;
+  const token =
+    req.cookies.get('token')?.value ||
+    req.headers.get('cookie')?.match(/token=([^;]+)/)?.[1] || null
 
-  if (PUBLIC_PATHS.some(path => pathname === path)) {
-    return NextResponse.next();
+  const isProtectedRoute = [
+    '/dashboard',
+
+  ].some((route) => req.nextUrl.pathname.startsWith(route))
+
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
 
-  if (pathname.startsWith('/dashboard') && !token) {
-    const loginUrl = req.nextUrl.clone();
-    loginUrl.pathname = '/login';
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*'],
-};
+  matcher: [
+    '/dashboard/:path*',
+
+  ],
+}
