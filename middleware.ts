@@ -1,16 +1,17 @@
+// middleware.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-const PUBLIC_ROUTES = ['/login'];
+const PUBLIC_ROUTES = ['/login']; // Bas login hi allowed hai public
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Allow public routes
+  // Agar public route hai, allow kar do
   if (PUBLIC_ROUTES.includes(pathname)) {
     return NextResponse.next();
   }
 
-  // Check for token cookie
+  // Token check karo
   const token = req.cookies.get('token');
   if (!token) {
     const loginUrl = req.nextUrl.clone();
@@ -20,7 +21,7 @@ export function middleware(req: NextRequest) {
 
   return NextResponse.next();
 }
+
 export const config = {
   matcher: ['/((?!api|_next|favicon.ico).*)'],
 };
-

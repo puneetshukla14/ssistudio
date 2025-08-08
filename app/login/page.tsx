@@ -33,7 +33,7 @@ export default function LoginPage() {
     } else {
       setTimeout(() => {
         router.push('/');
-      }, 3000);
+      }, 1000);
     }
   }
 
@@ -43,12 +43,12 @@ export default function LoginPage() {
 
       <div className="min-h-screen flex flex-col items-center justify-center relative z-10 px-4">
         <motion.h1
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="text-white text-4xl font-mono font-semibold tracking-[0.2em] mb-10 select-none"
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className="text-5xl sm:text-6xl font-bold text-white mb-12 select-none"
         >
-          SSISTUDIO
+          SSI <span className="font-normal text-white/70">Studio</span>
         </motion.h1>
 
         <motion.div
@@ -94,7 +94,7 @@ export default function LoginPage() {
               className={`w-full py-2 rounded-md font-medium transition duration-200 ${
                 isLoading
                   ? 'bg-white/10 text-white cursor-not-allowed'
-                  : 'bg-white/20 hover:bg-white/30 text-white hover:shadow-[0_0_10px_rgba(255,255,255,0.2)]'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
               }`}
             >
               {isLoading ? 'Verifying...' : 'Login'}
