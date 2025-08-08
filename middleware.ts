@@ -1,22 +1,26 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { NextRequest, NextResponse } from 'next/server';
 
-const PUBLIC_ROUTES = ["/login"];
+const PUBLIC_ROUTES = ['/login'];
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  if (PUBLIC_ROUTES.includes(pathname)) return NextResponse.next();
-
-  const token = req.cookies.get("token")?.value;
-  if (!token) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-
-  try {
-    jwt.verify(token, process.env.JWT_SECRET!);
+  // Allow public routes
+  if (PUBLIC_ROUTES.includes(pathname)) {
     return NextResponse.next();
-  } catch {
-    return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  // Check for token cookie
+  const token = req.cookies.get('token');
+  if (!token) {
+    const loginUrl = req.nextUrl.clone();
+    loginUrl.pathname = '/login';
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return NextResponse.next();
 }
+export const config = {
+  matcher: ['/((?!api|_next|favicon.ico).*)'],
+};
+
