@@ -79,6 +79,11 @@ export default function Sidebar() {
 
   const isChildActive = (path: string) => pathname === path
 
+  const handleLogout = async () => {
+    await fetch('/api/logout', { method: 'POST' })
+    router.push('/login')
+  }
+
   const SidebarContent = (
     <aside className="w-64 min-h-screen bg-[#0b0b0b] text-white flex flex-col justify-between border-r border-white/10">
       <div>
@@ -150,15 +155,13 @@ export default function Sidebar() {
 
       <div className="p-4 border-t border-white/10 bg-[#111111]">
         <div className="text-white/30 text-xs mb-3 text-center">SSISTUDIO v.1.08.25</div>
-        <form action="/api/logout" method="POST">
-          <button
-            type="submit"
-            className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition"
-          >
-            <HiOutlineLogout size={16} />
-            Logout
-          </button>
-        </form>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-sm text-white/60 hover:text-white transition"
+        >
+          <HiOutlineLogout size={16} />
+          Logout
+        </button>
       </div>
     </aside>
   )
