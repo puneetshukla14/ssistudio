@@ -14,7 +14,7 @@ export default function DashboardHeader() {
     if (isHovered) {
       setIsExpanded(true)
     } else {
-      timeout = setTimeout(() => setIsExpanded(false), 300) // wait for fade-out
+      timeout = setTimeout(() => setIsExpanded(false), 300)
     }
 
     return () => clearTimeout(timeout)
@@ -25,17 +25,22 @@ export default function DashboardHeader() {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={clsx(
-        'group relative z-10 mx-auto mt-6 flex items-center justify-center overflow-hidden rounded-full border border-white/10 backdrop-blur-2xl bg-gradient-to-br from-white/5 via-white/10 to-white/5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]',
-        'transition-all duration-500 ease-in-out',
-        'min-w-[176px]', // consistent base width (w-44)
-        isExpanded ? 'max-w-[640px] px-5 py-2' : 'max-w-[176px] px-3 py-1'
+        'group relative z-10 mx-auto mt-6 flex items-center justify-center overflow-hidden rounded-full backdrop-blur-2xl',
+        'transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]',
+        'min-w-[176px]',
+        isExpanded ? 'max-w-[640px] px-5 py-2 scale-[1.03]' : 'max-w-[176px] px-3 py-1 scale-[1]',
+        'bg-gradient-to-br from-[#ffffff0b] via-[#ffffff14] to-[#ffffff0b]',
+        'border border-white/10 shadow-[inset_0_1px_4px_rgba(255,255,255,0.1),_0_8px_32px_rgba(0,0,0,0.3)]'
       )}
-      style={{ transitionProperty: 'max-width, padding' }}
+      style={{
+        transitionProperty: 'max-width, padding, transform',
+        willChange: 'max-width, padding, transform',
+      }}
     >
-      {/* Glow Layer */}
-      <div className="absolute inset-0 pointer-events-none before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white/10 before:blur-lg before:opacity-30 transition-all duration-500" />
+      {/* Inner Soft Glow */}
+      <div className="absolute inset-0 z-0 pointer-events-none before:content-[''] before:absolute before:inset-0 before:rounded-full before:bg-white/10 before:blur-2xl before:opacity-20" />
 
-      <div className="flex items-center justify-between w-full">
+      <div className="flex items-center justify-between w-full relative z-10">
         {/* Search */}
         <div
           className={clsx(
@@ -66,7 +71,7 @@ export default function DashboardHeader() {
           <div className="w-9 h-9 rounded-full bg-white/10 border border-white/20 ring-1 ring-white/10 backdrop-blur-sm" />
         </div>
 
-        {/* Mini Icons */}
+        {/* Mini Icons (Collapsed State) */}
         <div
           className={clsx(
             'absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 transition-opacity duration-300',
