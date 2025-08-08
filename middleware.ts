@@ -1,26 +1,25 @@
-// middleware.ts
 import { NextRequest, NextResponse } from 'next/server'
 
-const PUBLIC_ROUTES = ['/login']
-
 export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl
+  const token =
+    req.cookies.get('token')?.value ||
+    req.headers.get('cookie')?.match(/token=([^;]+)/)?.[1] || null
 
-  if (PUBLIC_ROUTES.some(route => pathname.startsWith(route))) {
-    return NextResponse.next()
-  }
+  const isProtectedRoute = [
+    '/dashboard',
 
-  const token = req.cookies.get('token')
+  ].some((route) => req.nextUrl.pathname.startsWith(route))
 
-  if (!token) {
-    const loginUrl = req.nextUrl.clone()
-    loginUrl.pathname = '/login'
-    return NextResponse.redirect(loginUrl)
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL('/login', req.url))
   }
 
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|favicon.ico).*)'],
+  matcher: [
+    '/dashboard/:path*',
+
+  ],
 }
