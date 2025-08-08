@@ -2,11 +2,9 @@
 
 export default function Logo() {
   return (
-    <div className="text-white font-semibold text-[17px] tracking-tight leading-none select-none">
-      SSII{" "}
-      <span className="text-neutral-400">
-        Studio
-      </span>
+    <div className="select-none flex items-center space-x-1 text-[18px] leading-none font-sans">
+      <span className="text-white font-semibold tracking-tight">SSI</span>
+      <span className="text-neutral-400 font-normal tracking-tight">Studio</span>
     </div>
   );
 }
